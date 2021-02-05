@@ -18,18 +18,15 @@ void ft_reset(void *mlx_ptr, void *win_ptr)
 
 void ft_square(t_cublist *var)
 {
-	int tmp_x;
-	int tmp_y;
-	int y_init;
+	int i;
+	int j;
 
-	tmp_x = var->p_x + 25;
-	tmp_y = var->p_y + 25;
-	y_init = var->p_y;
-	while (var->p_x++ < tmp_x)
+	i = -1;
+	while (++i < 10)
 	{
-		var->p_y = y_init;
-		while (var->p_y++ < tmp_y)
-			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x, var->p_y, 050050050);
+		j = -1;
+		while (++j < 10)
+			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + i, var->p_y + j, g_rose);
 	}
 }
 
