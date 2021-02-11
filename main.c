@@ -18,20 +18,17 @@ void ft_reset(void *mlx_ptr, void *win_ptr)
 
 void ft_wall(t_cublist var, int wall, int x, int y)
 {
-	int color;
 	int i;
 	int j;
 
-	if (wall)
-		color = g_orange;
-	else
-		color = 0;
+	if (!wall)
+		return ;
 	i = -1;
 	while (++i < 100)
 	{
 		j = -1;
-		while (++j < 107)
-			mlx_pixel_put(var.mlx_ptr, var.win_ptr, x * 101 + i, y * 108 + j, color);
+		while (++j < 100)
+			mlx_pixel_put(var.mlx_ptr, var.win_ptr, x * 100 + i, y * 100 + j, g_orange);
 	}
 }
 
@@ -41,27 +38,26 @@ void ft_map(t_cublist var)
 	int j;
 	int map_x;
 	int map_y;
-	int map[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-				1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 
-				1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-				1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-				1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-				1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-				1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-				1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-				1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-	map_x = 19;
+
+	map_x = 10;
 	map_y = 10;
 	i = -1;
 	while (++i < map_x)
 	{
 		j = -1;
 		while (++j < map_y)
-			ft_wall(var, map[j * map_x + i], i, j);
+			ft_wall(var, g_map[j][i], i, j);
 	}
 
 
+}
+
+int	ft_is_wall(int x, int y)
+{
+	//printf("%d\n%d\n", x / 101, y / 108);
+	if (g_map[y / 100][x / 100])
+		return (1);
+	return (0);
 }
 
 void ft_line(int color, float dx, float dy, t_cublist *var)
@@ -73,10 +69,10 @@ void ft_line(int color, float dx, float dy, t_cublist *var)
 	i = -1;
 	x = 0;
 	y = 0;
-	while (++i < 90)
+	while (++i < 2225 && !ft_is_wall(var->p_x - x, var->p_y - y))
 	{
 		x += dx;
-		y += dx;
+		y += dy;
 		mlx_pixel_put(var->mlx_ptr, var->win_ptr, x + var->p_x, var->p_y - y, color);
 	}
 }
@@ -98,18 +94,9 @@ void ft_square(t_cublist *var, int color)
 		while (++x < 10)
 			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + i, var->p_y + x, color);
 	}
-	i = -1;
-	x = 0;
-	y = 0;
 	if (color)
 		color = g_red;
 	ft_line(color, dx, dy, var);
-	while (++i < 90)
-	{
-		x += dx;
-		y += dy;
-		mlx_pixel_put(var->mlx_ptr, var->win_ptr, x + var->p_x, var->p_y - y, color);
-	}
 }
 
 void ft_go_w(t_cublist *var)
@@ -120,8 +107,11 @@ void ft_go_w(t_cublist *var)
 	ft_square(var, 0);
 	dx = cos((M_PI / 180) * var->rot) * 10;
 	dy = sin((M_PI / 180) * var->rot) * 10;
-	var->p_x += dx;
-	var->p_y -= dy;
+	if (!ft_is_wall(var->p_x + dx, var->p_y - dy))
+	{
+		var->p_x += dx;
+		var->p_y -= dy;
+	}
 	ft_square(var, g_rose);
 }
 
@@ -133,8 +123,11 @@ void ft_go_a(t_cublist *var)
 	ft_square(var, 0);
 	dx = cos((M_PI / 180) * var->rot) * 10;
 	dy = sin((M_PI / 180) * var->rot) * 10;
-	var->p_x -= dy;
-	var->p_y -= dx;
+	if (!ft_is_wall(var->p_x - dy, var->p_y - dx))
+	{
+		var->p_x -= dy;
+		var->p_y -= dx;
+	}
 	ft_square(var, g_rose);
 }
 
@@ -146,8 +139,11 @@ void ft_go_s(t_cublist *var)
 	ft_square(var, 0);
 	dx = cos((M_PI / 180) * var->rot) * 10;
 	dy = sin((M_PI / 180) * var->rot) * 10;
-	var->p_x -= dx;
-	var->p_y += dy;
+	if (!ft_is_wall(var->p_x - dx, var->p_y + dy))
+	{
+		var->p_x -= dx;
+		var->p_y += dy;
+	}
 	ft_square(var, g_rose);
 }
 
@@ -159,8 +155,11 @@ void ft_go_d(t_cublist *var)
 	ft_square(var, 0);
 	dx = cos((M_PI / 180) * var->rot) * 10;
 	dy = sin((M_PI / 180) * var->rot) * 10;
-	var->p_x += dy;
-	var->p_y += dx;
+	if (!ft_is_wall(var->p_x + dy, var->p_y + dy))
+	{
+		var->p_x += dy;
+		var->p_y += dx;
+	}
 	ft_square(var, g_rose);
 }
 
@@ -204,7 +203,7 @@ int main(void)
 {
 	t_cublist var;
 
-	var.p_x = 1920 / 2;
+	var.p_x = 1920 / 3;
 	var.p_y = 1080 / 2;
 	var.rot = 90;
 	var.mlx_ptr = mlx_init();
