@@ -24,11 +24,11 @@ void ft_wall(t_cublist var, int wall, int x, int y)
 	if (!wall)
 		return ;
 	i = -1;
-	while (++i < 100)
+	while (++i < 98)
 	{
 		j = -1;
-		while (++j < 100)
-			mlx_pixel_put(var.mlx_ptr, var.win_ptr, x * 100 + i, y * 100 + j, g_orange);
+		while (++j < 98)
+			mlx_pixel_put(var.mlx_ptr, var.win_ptr, x * 100 + i + 1, y * 100 + j + 1, g_orange);
 	}
 }
 
@@ -60,43 +60,41 @@ int	ft_is_wall(int x, int y)
 	return (0);
 }
 
-void ft_line(int color, float dx, float dy, t_cublist *var)
+void ft_line(int color, t_cublist *var, int rot)
 {
-	float x;
-	float y;
+	float dx;
+	float dy;
 	int i;
 
 	i = -1;
-	x = 0;
-	y = 0;
-	while (++i < 2225 && !ft_is_wall(var->p_x - x, var->p_y - y))
+	dx = 0;
+	dy = 0;
+	while (++i < 2225 && !ft_is_wall(var->p_x + dx, var->p_y - dy))
 	{
-		x += dx;
-		y += dy;
-		mlx_pixel_put(var->mlx_ptr, var->win_ptr, x + var->p_x, var->p_y - y, color);
+		dx += cos((var->rot + rot) * (M_PI / 180));
+		dy += sin((var->rot + rot) * (M_PI / 180));
+		mlx_pixel_put(var->mlx_ptr, var->win_ptr, dx + var->p_x, var->p_y - dy, color);
 	}
 }
 
 void ft_square(t_cublist *var, int color)
 {
-	float dx;
-	float dy;
 	float x;
 	float y;
 	int i;
 
-	dx = cos(var->rot * (M_PI / 180));
-	dy = sin(var->rot * (M_PI / 180));
 	i = -1;
-	while (++i < 10)
+	while (++i < 6)
 	{
 		x = -1;
-		while (++x < 10)
-			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + i, var->p_y + x, color);
+		while (++x < 6)
+			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + i - 3, var->p_y + x - 3, color);
 	}
 	if (color)
 		color = g_red;
-	ft_line(color, dx, dy, var);
+	i = -46;
+	while (++i < 46)
+	ft_line(color, var, i);
 }
 
 void ft_go_w(t_cublist *var)
@@ -166,7 +164,7 @@ void ft_go_d(t_cublist *var)
 void ft_look_right(t_cublist *var)
 {
 	ft_square(var, 0);
-	var->rot -= 3;
+	var->rot -= 5;
 	var->rot %= 360;
 	ft_square(var, g_rose);
 }
@@ -174,7 +172,7 @@ void ft_look_right(t_cublist *var)
 void ft_look_left(t_cublist *var)
 {
 	ft_square(var, 0);
-	var->rot += 3;
+	var->rot += 5;
 	var->rot %= 360;
 	ft_square(var, g_rose);
 }
