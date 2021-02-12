@@ -39,7 +39,7 @@ void ft_map(t_cublist var)
 	int map_x;
 	int map_y;
 
-	map_x = 10;
+	map_x = 20;
 	map_y = 10;
 	i = -1;
 	while (++i < map_x)
@@ -92,7 +92,7 @@ void ft_square(t_cublist *var, int color)
 	}
 	if (color)
 		color = g_red;
-	i = -46;
+	i = -44;
 	while (++i < 46)
 	ft_line(color, var, i);
 }
