@@ -6,7 +6,7 @@
 /*   By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 14:53:01 by zminhas           #+#    #+#             */
-/*   Updated: 2021/02/12 17:30:12 by zminhas          ###   ########.fr       */
+/*   Updated: 2021/02/15 15:25:10 by zminhas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 int g_rose = 32123123;
 int g_orange = 100100100;
 int g_red = 150150150;
+int g_white = 0x00FFFFFF;
 int g_map[10][20] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 					{1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1}, 
 					{1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1},
@@ -35,7 +36,7 @@ typedef struct	s_cublist
 {
 	float	p_x;
 	float	p_y;
-	int rot;
+	int		rot;
 	void	*mlx_ptr;
 	void	*win_ptr;
 }				t_cublist;

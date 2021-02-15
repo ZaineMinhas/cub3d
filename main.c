@@ -54,13 +54,12 @@ void ft_map(t_cublist var)
 
 int	ft_is_wall(int x, int y)
 {
-	//printf("%d\n%d\n", x / 101, y / 108);
 	if (g_map[y / 100][x / 100])
 		return (1);
 	return (0);
 }
 
-void ft_line(int color, t_cublist *var, int rot)
+void ft_line(int color, t_cublist *var, float rot)
 {
 	float dx;
 	float dy;
@@ -71,8 +70,8 @@ void ft_line(int color, t_cublist *var, int rot)
 	dy = 0;
 	while (++i < 2225 && !ft_is_wall(var->p_x + dx, var->p_y - dy))
 	{
-		dx += cos((var->rot + rot) * (M_PI / 180));
-		dy += sin((var->rot + rot) * (M_PI / 180));
+		dx += cos(((float)var->rot + rot) * (M_PI / 180));
+		dy += sin(((float)var->rot + rot) * (M_PI / 180));
 		mlx_pixel_put(var->mlx_ptr, var->win_ptr, dx + var->p_x, var->p_y - dy, color);
 	}
 }
@@ -81,7 +80,7 @@ void ft_square(t_cublist *var, int color)
 {
 	float x;
 	float y;
-	int i;
+	float i;
 
 	i = -1;
 	while (++i < 6)
@@ -91,10 +90,13 @@ void ft_square(t_cublist *var, int color)
 			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + i - 3, var->p_y + x - 3, color);
 	}
 	if (color)
-		color = g_red;
-	i = -44;
-	while (++i < 46)
-	ft_line(color, var, i);
+		color = g_white;
+	i = -45;
+	while (i < 46)
+	{
+		i += 1;
+		ft_line(color, var, i);
+	}
 }
 
 void ft_go_w(t_cublist *var)
