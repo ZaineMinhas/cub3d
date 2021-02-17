@@ -16,7 +16,7 @@ void ft_reset(void *mlx_ptr, void *win_ptr)
 	}
 }
 
-void ft_wall(t_cublist var, int wall, int x, int y)
+void ft_wall(t_cub var, int wall, int x, int y)
 {
 	int i;
 	int j;
@@ -32,7 +32,7 @@ void ft_wall(t_cublist var, int wall, int x, int y)
 	}
 }
 
-void ft_map(t_cublist var)
+void ft_map(t_cub var)
 {
 	int i;
 	int j;
@@ -59,7 +59,7 @@ int	ft_is_wall(int x, int y)
 	return (0);
 }
 
-void ft_line(int color, t_cublist *var, float rot)
+void ft_line(int color, t_cub *var, float rot)
 {
 	float dx;
 	float dy;
@@ -76,7 +76,7 @@ void ft_line(int color, t_cublist *var, float rot)
 	}
 }
 
-void ft_square(t_cublist *var, int color)
+void ft_square(t_cub *var, int color)
 {
 	float x;
 	float y;
@@ -99,7 +99,7 @@ void ft_square(t_cublist *var, int color)
 	}
 }
 
-void ft_go_w(t_cublist *var)
+void ft_go_w(t_cub *var)
 {
 	float dx;
 	float dy;
@@ -115,7 +115,7 @@ void ft_go_w(t_cublist *var)
 	ft_square(var, g_rose);
 }
 
-void ft_go_a(t_cublist *var)
+void ft_go_a(t_cub *var)
 {
 	float dx;
 	float dy;
@@ -131,7 +131,7 @@ void ft_go_a(t_cublist *var)
 	ft_square(var, g_rose);
 }
 
-void ft_go_s(t_cublist *var)
+void ft_go_s(t_cub *var)
 {
 	float dx;
 	float dy;
@@ -147,7 +147,7 @@ void ft_go_s(t_cublist *var)
 	ft_square(var, g_rose);
 }
 
-void ft_go_d(t_cublist *var)
+void ft_go_d(t_cub *var)
 {
 	float dx;
 	float dy;
@@ -163,7 +163,7 @@ void ft_go_d(t_cublist *var)
 	ft_square(var, g_rose);
 }
 
-void ft_look_right(t_cublist *var)
+void ft_look_right(t_cub *var)
 {
 	ft_square(var, 0);
 	var->rot -= 5;
@@ -171,7 +171,7 @@ void ft_look_right(t_cublist *var)
 	ft_square(var, g_rose);
 }
 
-void ft_look_left(t_cublist *var)
+void ft_look_left(t_cub *var)
 {
 	ft_square(var, 0);
 	var->rot += 5;
@@ -180,7 +180,7 @@ void ft_look_left(t_cublist *var)
 }
 
 
-int ft_go(int key, t_cublist *var)
+int ft_go(int key, t_cub *var)
 {
 	if (key == 53 /*esc*/)
 		exit(1);
@@ -199,12 +199,84 @@ int ft_go(int key, t_cublist *var)
 	return (0);
 }
 
+char *ft_get_info(char *line, int i)
+{
+	int j;
+
+	while (line[i] == ' ')
+		i++;
+	j = ft_strlen(line) - 1;
+	while (line[j] == ' ')
+		j--;
+	return (ft_substr(line, (unsigned int)i, (size_t)j));
+}
+
+void ft_get_resolution(t_map *info, char *line)
+{
+	char **str;
+
+	str = ft_split(line, ' ');
+	info->r[0] = ft_atoi(str[1]);
+	info->r[1] = ft_atoi(str[2]);
+}
+
+void ft_get_color_f(t_map *info, char *line)
+{
+	char **str;
+
+	str = ft_split(line + 1, ',');
+	info->f[0] = ft_atoi(str[0]);
+	info->f[1] = ft_atoi(str[1]);
+	info->f[2] = ft_atoi(str[2]);
+}
+
+void ft_get_color_c(t_map *info, char *line)
+{
+	char **str;
+
+	str = ft_split(line + 1, ',');
+	info->c[0] = ft_atoi(str[0]);
+	info->c[1] = ft_atoi(str[1]);
+	info->c[2] = ft_atoi(str[2]);
+}
+
+void ft_info(t_map *info/*, char **argv*/)
+{
+	char *line;
+	int fd;
+
+	if (!(fd = open("fichier.cub", O_RDONLY)))
+		return ;
+	while (get_next_line(fd, &line))
+	{
+		if (line[0] == 'R')
+			ft_get_resolution(info, line);
+		else if (line[0] == 'N')
+			info->no = ft_get_info(line, 2);
+		else if (line[0] == 'W')
+			info->we = ft_get_info(line, 2);
+		else if (line[0] == 'E')
+			info->ea = ft_get_info(line, 2);
+		else if (line[0] == 'F')
+			ft_get_color_f(info, line);
+		else if (line[0] == 'C')
+			ft_get_color_c(info, line);
+		else if (line[0] == 'S' && line[1] == 'O')
+			info->so = ft_get_info(line, 2);
+		else if (line[0] == 'S')
+			info->s = ft_get_info(line, 1);
+	}
+	close(fd);
+}
+
 int main(void)
 {
-	t_cublist var;
+	t_cub var;
+	t_map info;
 
-	var.p_x = 1920 / 3;
-	var.p_y = 1080 / 2;
+	ft_info(&info);
+	/*var.p_x = 1920 / 3;
+	var.p_y = 1080 / 2;*/
 	var.rot = 90;
 	var.mlx_ptr = mlx_init();
 	var.win_ptr = mlx_new_window(var.mlx_ptr, 1920, 1080, "la fenetre");
