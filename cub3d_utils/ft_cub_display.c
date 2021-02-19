@@ -6,7 +6,7 @@
 /*   By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 17:34:00 by zminhas           #+#    #+#             */
-/*   Updated: 2021/02/17 17:44:58 by zminhas          ###   ########.fr       */
+/*   Updated: 2021/02/19 15:37:39 by zminhas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,21 @@ void	ft_square(t_cub *var, int color)
 {
 	float x;
 	float y;
-	float i;
 
-	i = -1;
-	while (++i < 6)
+	y = -1;
+	while (++y < 6)
 	{
 		x = -1;
 		while (++x < 6)
-			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + i - 3,
+			mlx_pixel_put(var->mlx_ptr, var->win_ptr, var->p_x + y - 3,
 			var->p_y + x - 3, color);
 	}
 	if (color)
 		color = g_white;
-	i = -45;
-	while (i < 46)
+	y = -45;
+	while (y < 46)
 	{
-		i += 1;
-		ft_line(color, var, i);
+		y += 1;
+		ft_line(color, var, y);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/18 18:35:49 by zminhas           #+#    #+#              #
-#    Updated: 2020/12/28 18:12:53 by zminhas          ###   ########.fr        #
+#    Updated: 2021/02/19 15:48:50 by zminhas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,13 +85,11 @@ all:		${NAME}
 clean:
 			@rm -f ${OBJS}
 			@rm -f ${OBJS_BONUS}
-			@echo "${RED}Objects cleaned !${RESET}"
 
 fclean:
 			@rm -f ${OBJS}
 			@rm -f ${NAME}
 			@rm -f ${OBJS_BONUS}
-			@echo "${RED}fclean done !${RESET}"
 
 bonus:		${OBJS_BONUS}
 			@ar -rcs ${NAME} ${OBJS_BONUS}

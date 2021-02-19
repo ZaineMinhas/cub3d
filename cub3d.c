@@ -3,7 +3,7 @@
 int main(void)
 {
 	t_cub var;
-	t_map info;
+	//t_map info;
 
 	//ft_info(&info);
 	var.p_x = 1920 / 3;
@@ -21,4 +21,4 @@ int main(void)
 
 // w = 13, a = 0, s = 1, d = 2, up = 126, left = 123, right = 124, down = 125
 
-// la commande : gcc -lmlx -framework OpenGL -framework AppKit cub3d.c && clear && ./a.out
+// la commande : gcc -lmlx -framework OpenGL -framework AppKit cub3d.a && clear && ./a.out

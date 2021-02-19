@@ -6,7 +6,7 @@
 /*   By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 14:53:01 by zminhas           #+#    #+#             */
-/*   Updated: 2021/02/17 17:58:00 by zminhas          ###   ########.fr       */
+/*   Updated: 2021/02/19 15:54:29 by zminhas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 # include <mlx.h>
 # include <math.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <fcntl.h>
+# include "libft/libft.h"
+# include "gnl/get_next_line.h"
 
 int g_rose = 32123123;
 int g_orange = 100100100;

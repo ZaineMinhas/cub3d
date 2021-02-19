@@ -6,7 +6,7 @@
 /*   By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 16:13:57 by zminhas           #+#    #+#             */
-/*   Updated: 2020/12/26 17:27:31 by zminhas          ###   ########.fr       */
+/*   Updated: 2021/02/19 15:42:47 by zminhas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_strjoin_remix(char const *s1, char const *s2)
 	size_t	size;
 
 	size = ft_strlen_protect(s1) + ft_strlen_protect(s2) + 1;
-	if (!(dest = (char *)ft_calloc(sizeof(char), size)))
+	if (!(dest = (char *)ft_calloc_remix(sizeof(char), size)))
 	{
 		if (s1)
 			free((void *)s1);
@@ -64,7 +64,7 @@ char	*ft_get_line(char *str)
 	size = 0;
 	while (str[size] && str[size] != '\n')
 		size++;
-	if (!(dest = (char *)ft_calloc(sizeof(char), size + 1)))
+	if (!(dest = (char *)ft_calloc_remix(sizeof(char), size + 1)))
 		return (NULL);
 	size = 0;
 	while (str[size] && str[size] != '\n')

@@ -6,7 +6,7 @@
 /*   By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 16:16:55 by zminhas           #+#    #+#             */
-/*   Updated: 2020/12/26 17:10:56 by zminhas          ###   ########.fr       */
+/*   Updated: 2021/02/19 15:43:46 by zminhas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen_protect(const char *s)
 	return (i);
 }
 
-void	*ft_calloc(int count, int size)
+void	*ft_calloc_remix(int count, int size)
 {
 	char		*dest;
 	int			i;
@@ -51,14 +51,14 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return ((void *)dest2);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup_remix(char *s1)
 {
 	char	*dest;
 	int		i;
 
 	if (!s1)
 		return (NULL);
-	if (!(dest = (char *)ft_calloc(sizeof(char), (ft_strlen_protect(s1) + 1))))
+	if (!(dest = (char *)ft_calloc_remix(sizeof(char), (ft_strlen_protect(s1) + 1))))
 		return (NULL);
 	i = -1;
 	while (s1[++i])
@@ -77,7 +77,7 @@ char	*ft_strchr_dup_remix(const char *s, int c)
 	while (s[++i])
 		if (s[i] == (char)c)
 		{
-			dest = ft_strdup((char *)(s + i + 1));
+			dest = ft_strdup_remix((char *)(s + i + 1));
 			free((void *)s);
 			return (dest);
 		}
