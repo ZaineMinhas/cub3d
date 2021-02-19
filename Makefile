@@ -6,7 +6,7 @@
 #    By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 15:14:41 by zminhas           #+#    #+#              #
-#    Updated: 2021/02/19 15:52:22 by zminhas          ###   ########.fr        #
+#    Updated: 2021/02/19 16:04:45 by zminhas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ LIB_PATH	=	./libft
 $(NAME):		$(OBJS)
 				@make -C $(LIB_PATH)
 				@ar -rcs $(NAME) $(OBJS)
+				@gcc -lmlx -framework OpenGL -framework AppKit $(NAME)
 				@echo "${GREEN}cub3d.a created !${RESET}"
 
 all:			$(NAME)
