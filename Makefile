@@ -6,7 +6,7 @@
 #    By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/19 15:14:41 by zminhas           #+#    #+#              #
-#    Updated: 2021/02/19 16:04:45 by zminhas          ###   ########.fr        #
+#    Updated: 2021/02/19 17:12:21 by zminhas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,13 @@ WHITE		= $(shell tput -Txterm setaf 7)
 RESET		= $(shell tput -Txterm sgr0)
 
 SRCS	=	cub3d.c\
-			cub3d_utils/ft_cub_display.c\
-			cub3d_utils/ft_cub_get_info.c\
-			cub3d_utils/ft_cub_key.c\
-			cub3d_utils/ft_cub_map.c\
-			cub3d_utils/ft_cub_move.c\
-			cub3d_utils/ft_cub_rot.c\
+			srcs/ft_cub_display.c\
+			srcs/ft_cub_get_info.c\
+			srcs/ft_cub_key.c\
+			srcs/ft_cub_map.c\
+			srcs/ft_cub_move.c\
+			srcs/ft_cub_rot.c\
+			srcs/ft_cub_utils.c\
 			gnl/get_next_line_utils.c\
 			gnl/get_next_line.c
 
