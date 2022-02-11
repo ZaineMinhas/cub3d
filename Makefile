@@ -3,13 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+         #
+#    By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/02/19 15:14:41 by zminhas           #+#    #+#              #
-#    Updated: 2021/02/19 17:12:21 by zminhas          ###   ########.fr        #
+#    Created: 2021/02/03 14:52:52 by ctirions          #+#    #+#              #
+#    Updated: 2022/02/10 20:00:44 by ctirions         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
+BLACK		= $(shell tput -Txterm setaf 0)
 RED			= $(shell tput -Txterm setaf 1)
 GREEN		= $(shell tput -Txterm setaf 2)
 YELLOW		= $(shell tput -Txterm setaf 3)
@@ -19,46 +21,46 @@ BLUE		= $(shell tput -Txterm setaf 6)
 WHITE		= $(shell tput -Txterm setaf 7)
 RESET		= $(shell tput -Txterm sgr0)
 
-SRCS	=	cub3d.c\
-			srcs/ft_cub_display.c\
-			srcs/ft_cub_get_info.c\
-			srcs/ft_cub_key.c\
-			srcs/ft_cub_map.c\
-			srcs/ft_cub_move.c\
-			srcs/ft_cub_rot.c\
-			srcs/ft_cub_utils.c\
-			gnl/get_next_line_utils.c\
-			gnl/get_next_line.c
+SRCSDIR	=	srcs/
+OBJSDIR	=	objs/
 
-OBJS	=	${SRCS:.c=.o}			
+FILES	=	cub3d.c			\
+			free/free.c		\
+			init/init.c		\
+			parsing/parse.c	\
+			utils/utils.c
 
-NAME	=	cub3d.a
+SRCS	=	$(addprefix srcs/, $(FILES))
+OBJS	=	$(patsubst srcs%.c, objs%.o, $(SRCS))
 
-LIB_PATH	=	./libft
+CC		=	gcc -Wall -Wextra -Werror
+MFLAGS	=	-lmlx -framework OpenGL -framework AppKit
 
-.c.o:
-				@gcc -Wall -Wextra -Werror -c -I./ $< -o ${<:.c=.o}
-				@echo "${LIGHTPURPLE}Compilation of :$<${RESET}"
+NAME	=	cub3d
+RM		=	rm -f
 
-$(NAME):		$(OBJS)
-				@make -C $(LIB_PATH)
-				@ar -rcs $(NAME) $(OBJS)
-				@gcc -lmlx -framework OpenGL -framework AppKit $(NAME)
-				@echo "${GREEN}cub3d.a created !${RESET}"
+all:		$(NAME)
 
-all:			$(NAME)
+$(NAME):	$(OBJS)
+			@make full -C ./libft
+			@$(CC) $(MFLAGS) -o $(NAME) $(OBJS) libft/libft.a
+			@echo "\r[$(GREEN)✓$(RESET)] cub3d compiled                        "
 
-clean:			
-				@rm -f $(OBJS)
-				@make clean -C ${LIB_PATH}
-				@echo "${YELLOW}Objects cleaned !${RESET}"
+objs/%.o:	srcs/%.c			
+			@printf "\r[$(LIGHTPURPLE)✓$(RESET)] compilation of $<           \r"
+			@$(CC) -Imlx -I ./includes -c $^ -o $@
 
-fclean:
-				@rm -f ${OBJS}
-				@rm -f ${NAME}
-				@make fclean -C ${LIB_PATH}
-				@echo "${RED}fclean done !${RESET}"
+clean:
+			@$(RM) $(OBJS)
+			@make clean -C $(LIBFT)
+			@echo "[$(RED)✓$(RESET)] clean done"
 
-re:				fclean all
+fclean:	
+			@$(RM) $(OBJS)
+			@$(RM) $(NAME)
+			@make fclean -C ./libft
+			@echo "[$(RED)✓$(RESET)] fclean done"
 
-.PHONY:			all clean fclean re
+re:			fclean all
+
+.PHONY:		all clean fclean re cub3d

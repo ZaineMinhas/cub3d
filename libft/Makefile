@@ -3,12 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zminhas <zminhas@student.s19.be>           +#+  +:+       +#+         #
+#    By: ctirions <ctirions@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/11/18 18:35:49 by zminhas           #+#    #+#              #
-#    Updated: 2021/02/19 15:48:50 by zminhas          ###   ########.fr        #
+#    Created: 2020/11/18 17:05:49 by ctirions          #+#    #+#              #
+#    Updated: 2022/02/10 17:55:01 by ctirions         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#			COLORS
 
 BLACK		= $(shell tput -Txterm setaf 0)
 RED			= $(shell tput -Txterm setaf 1)
@@ -20,87 +22,105 @@ BLUE		= $(shell tput -Txterm setaf 6)
 WHITE		= $(shell tput -Txterm setaf 7)
 RESET		= $(shell tput -Txterm sgr0)
 
-SRCS	=	ft_atoi.c\
-			ft_bzero.c\
-			ft_calloc.c\
-			ft_isalnum.c\
-			ft_isalpha.c\
-			ft_isascii.c\
-			ft_isdigit.c\
-			ft_isprint.c\
-			ft_itoa.c\
-			ft_memccpy.c\
-			ft_memchr.c\
-			ft_memcmp.c\
-			ft_memcpy.c\
-			ft_memmove.c\
-			ft_memset.c\
-			ft_putchar_fd.c\
-			ft_putendl_fd.c\
-			ft_putnbr_fd.c\
-			ft_putstr_fd.c\
-			ft_split.c\
-			ft_strchr.c\
-			ft_strdup.c\
-			ft_strjoin.c\
-			ft_strlcat.c\
-			ft_strlcpy.c\
-			ft_strlen.c\
-			ft_strmapi.c\
-			ft_strncmp.c\
-			ft_strnstr.c\
-			ft_strrchr.c\
-			ft_strtrim.c\
-			ft_substr.c\
-			ft_tolower.c\
-			ft_toupper.c
+#			SOURCES
 
-SRCS_BONUS	=	ft_lstadd_back.c\
-				ft_lstadd_front.c\
-				ft_lstclear.c\
-				ft_lstdelone.c\
-				ft_lstiter.c\
-				ft_lstlast.c\
-				ft_lstmap.c\
-				ft_lstnew.c\
-				ft_lstsize.c
+SRCS		= ft_atoi.c \
+			  ft_isprint.c \
+			  ft_lstlast.c \
+			  ft_memcpy.c \
+			  ft_split.c \
+			  ft_strmapi.c \
+			  ft_toupper.c \
+			  ft_bzero.c \
+			  ft_itoa.c \
+			  ft_memmove.c \
+			  ft_strchr.c \
+			  ft_strncmp.c \
+			  ft_calloc.c \
+			  ft_memset.c \
+			  ft_strdup.c \
+			  ft_strnstr.c \
+			  ft_isalnum.c \
+			  ft_putchar_fd.c \
+			  ft_strjoin.c \
+			  ft_strrchr.c \
+			  ft_isalpha.c \
+			  ft_memccpy.c \
+			  ft_putendl_fd.c \
+			  ft_strlcat.c \
+			  ft_strtrim.c \
+			  ft_isascii.c \
+			  ft_memchr.c \
+			  ft_putnbr_fd.c \
+			  ft_strlcpy.c \
+			  ft_substr.c \
+			  ft_isdigit.c \
+			  ft_memcmp.c \
+			  ft_putstr_fd.c \
+			  ft_strlen.c \
+			  ft_tolower.c \
+			  ft_ternarys.c
 
-OBJS	=	${SRCS:.c=.o}
+SRCS_BONUS	= ft_lstnew.c \
+			  ft_lstadd_front.c \
+			  ft_lstsize.c \
+			  ft_lstlast.c \
+			  ft_lstadd_back.c \
+			  ft_lstdelone.c \
+			  ft_lstclear.c \
+			  ft_lstiter.c \
+			  ft_lstmap.c
 
-OBJS_BONUS	=	${SRCS_BONUS:.c=.o}
+SRCS_GNL	= get_next_line.c \
+			  get_next_line_utils.c\
 
-NAME	=	libft.a
+SRCS_PRINTF	= ft_convert_c.c \
+			  ft_convert_i_d.c \
+			  ft_convert_p.c \
+			  ft_convert_s.c \
+			  ft_convert_u.c \
+			  ft_convert_x.c \
+			  ft_execute.c \
+			  ft_get_element.c \
+			  ft_printf.c \
+			  ft_utils.c
+
+#			OBJECTS
+
+OBJS		= $(addprefix srcs/, ${SRCS:.c=.o})
+
+OBJS_BONUS	= $(addprefix srcs/, ${SRCS_BONUS:.c=.o})
+
+OBJS_GNL	= $(addprefix srcs/GNL/, ${SRCS_GNL:.c=.o})
+
+OBJS_PRINTF	= $(addprefix srcs/ft_printf/, ${SRCS_PRINTF:.c=.o})
+
+#			MAIN
+
+NAME		= libft.a
 
 .c.o:
-			@gcc -Wall -Wextra -Werror -c -I./ $< -o ${<:.c=.o}
-			@echo "${LIGHTPURPLE}Compilation of :$<${RESET}"
+			@gcc -Wall -Wextra -Werror -c -I./includes $< -o ${<:.c=.o}
+			@printf "\r[$(YELLOW)✓$(RESET)] compilation of $<                     \r"
 
-$(NAME):	${OBJS}
-			@ar -rcs ${NAME} ${OBJS}
-			@ranlib ${NAME}
-			@echo "${GREEN}Library created !${RESET}"
+$(NAME):	${OBJS} ${OBJS_PRINTF} ${OBJS_GNL}
+			@ar -rcs ${NAME} ${OBJS} ${OBJS_PRINTF} ${OBJS_GNL}
 
 all:		${NAME}
 
-clean:
-			@rm -f ${OBJS}
-			@rm -f ${OBJS_BONUS}
-
-fclean:
-			@rm -f ${OBJS}
-			@rm -f ${NAME}
-			@rm -f ${OBJS_BONUS}
-
 bonus:		${OBJS_BONUS}
 			@ar -rcs ${NAME} ${OBJS_BONUS}
-			@ranlib ${NAME}
-			@echo "${PURPLE}Bonus !${RESET}"
+			@printf "                                                    \r"
+			@printf "[$(GREEN)✓$(RESET)] libft compiled\n"
 
-full:		${OBJS} ${OBJS_BONUS}
-			@ar -rcs ${NAME} ${OBJS} ${OBJS_BONUS}
-			@ranlib ${NAME}
-			@echo "${PURPLE}JeeJ fuller !${RESET}"
+full:		all	bonus
 
+clean:
+			@rm -f ${OBJS} ${OBJS_BONUS} ${OBJS_GNL} ${OBJS_PRINTF}
+
+fclean:		clean
+			@rm -f ${NAME}
+			
 re:			fclean all
 
 .PHONY:		all clean fclean re bonus full
