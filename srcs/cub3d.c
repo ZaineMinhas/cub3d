@@ -6,7 +6,7 @@
 /*   By: zminhas <zminhas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 18:39:07 by ctirions          #+#    #+#             */
-/*   Updated: 2022/02/11 18:55:33 by zminhas          ###   ########.fr       */
+/*   Updated: 2022/03/15 17:23:23 by zminhas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,17 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
-void	print_double_char(char **str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		printf("%s\n", str[i]);
-}
-
 int	main(int argc, char **argv)
 {
 	t_cub	cub;
 
 	if (check_args(argc, argv) || init_var(&cub) || parse(argv, &cub))
-		return (1);
-	print_double_char(cub.map->info);
+		return (free_all(&cub, 5));
+	draw_game(&cub);
+	mlx_hook(cub.win_ptr, 2, 1L << 0, key_press, &cub);
+	mlx_hook(cub.win_ptr, 3, 1L << 1, key_release, &cub);
+	mlx_hook(cub.win_ptr, 17, 1L << 17, close_win, &cub);
+	mlx_loop_hook(cub.mlx_ptr, make_moves, &cub);
+	mlx_loop(cub.mlx_ptr);
 	return (0);
 }
